@@ -184,10 +184,8 @@ def snre_vad(signal, n_frames, frame_length, frame_shift, energy_floor, pitch_vo
     energy = estimate_energy(signal, frame_length, frame_shift, energy_floor)
     energy = np.insert(energy, 0, 'inf')  # temp bug fix
 
-    segsnr = np.zeros(n_frames);
+    segsnr = np.zeros(n_frames)
     segsnr = np.insert(segsnr, 0, 'inf')
-    segsnrsmth = 1
-    sign_segsnr = 0
     D = np.zeros(n_frames)
     D = np.insert(D, 0, 'inf')
     posteriori_snr = np.zeros(n_frames, dtype='float64')
@@ -321,11 +319,6 @@ def snre_vad(signal, n_frames, frame_length, frame_shift, energy_floor, pitch_vo
                 nstop = i
             sign_vad = 0
             esum = esum + sum(energy[range(nstart, nstop + 1)])
-
-    #
-    eps = np.finfo(float).eps
-
-    eave = esum / (sum(pv_vad[1:len(pv_vad)]) + eps)  # except [0] index 'inf'
 
     sign_vad = 0
     for i in range(1, n_frames + 1):
